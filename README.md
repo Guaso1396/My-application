@@ -26,29 +26,8 @@ La app obtiene una lista de dispositivos desde el endpoint `/objects` y los pres
 
 ## Estructura del proyecto
 
-Devices/
-├── app/
-│ ├── src/main/
-│ │ ├── java/com/example/devices/
-│ │ │ ├── Constants.kt
-│ │ │ ├── Device.kt
-│ │ │ ├── Specs.kt
-│ │ │ ├── DeviceService.kt
-│ │ │ ├── DeviceItem.kt
-│ │ │ ├── MainScreen.kt
-│ │ │ ├── MainActivity.kt
-│ │ │ └── ui/theme/
-│ │ ├── res/
-│ │ └── AndroidManifest.xml
-│ └── build.gradle.kts
-├── gradle/
-│ ├── libs.versions.toml
-│ └── wrapper/
-│     └── gradle-wrapper.properties
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradle.properties
-└── README.md
+<img width="292" height="608" alt="image" src="https://github.com/user-attachments/assets/e24d1cc9-b030-4e18-bc97-22848dcb99ba" />
+
 
 ---
 
