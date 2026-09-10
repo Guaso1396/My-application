@@ -1,191 +1,137 @@
-# Rick & Morty Android App
+# Rick & Morty App
 
-Aplicación Android desarrollada con Jetpack Compose que consume la Rick and Morty API para mostrar información sobre los personajes de la serie.
-
----
-
-## DESCRIPCIÓN GENERAL
-
-Esta aplicación permite explorar los personajes del universo de Rick & Morty mediante una interfaz moderna construida completamente con Jetpack Compose. Los usuarios pueden navegar a través de las páginas de resultados, visualizar los detalles de cada personaje y reintentar la carga en caso de errores de red.
+Aplicación Android desarrollada en Android Studio con Kotlin y Jetpack Compose que consume la API pública de Rick and Morty API para mostrar un catálogo de personajes de la serie.
 
 ---
 
-## CARACTERÍSTICAS PRINCIPALES
+## Descripción
 
-* Listado de personajes en formato de cuadrícula de 2 columnas.
-* Paginación para navegar entre las distintas páginas de resultados.
-* Indicador visual de estado (vivo, muerto o desconocido) con colores dinámicos.
-* Carga asíncrona de imágenes usando Coil.
-* Manejo de estados (Loading, Success, Error) con retroalimentación visual.
+La app obtiene una lista de personajes desde el endpoint /character y los presenta en una cuadrícula de 2 columnas con su imagen, nombre, estado, especie, género, origen, ubicación y cantidad de episodios. Incluye paginación para navegar entre las distintas páginas de resultados, un indicador visual de estado (vivo, muerto o desconocido) con colores dinámicos y manejo de estados de carga y error con opción de reintentar.
+
+Proyecto desarrollado en Android Studio, versión Hedgehog o superior.
+
+---
+
+## Características principales
+
+* Listado de personajes en cuadrícula de 2 columnas.
+* Paginación con botones Anterior y Siguiente, más indicador de página.
+* Indicador circular de estado: verde para vivo, rojo para muerto, gris para desconocido.
+* Carga asíncrona de imágenes con Coil.
+* Manejo de estados: Loading, Success y Error con reintento.
 * Tema oscuro y claro con soporte para colores dinámicos en Android 12 o superior.
-* Diseño con gradiente y tarjetas personalizadas.
+* Diseño con gradiente de fondo y tarjetas redondeadas.
 
 ---
 
-## TECNOLOGÍAS UTILIZADAS
+## Tecnologías utilizadas
 
 * Kotlin
 * Jetpack Compose
+* Material 3
 * Retrofit 2
 * Gson
 * Coil
-* Material 3
 * Coroutines
+* Gradle Kotlin DSL
 
 ---
 
-## ESTRUCTURA DEL PROYECTO
+## Estructura del proyecto
 
-com.example.myapplication
+El proyecto se organiza en el paquete com.example.myapplication con los siguientes archivos:
 
-Character.kt: modelos de datos (CharacterResponse, Info, Character, Origin)
-Characteritem.kt: Composable que renderiza cada tarjeta de personaje
-Characterservice.kt: interfaz Retrofit con los endpoints
-Constants.kt: constantes globales (BASE_URL, rutas)
-MainActivity.kt: punto de entrada y lógica de carga de datos
-MainScreen.kt: UI principal con grid, paginación y estados
+* Character.kt: modelos de datos CharacterResponse, Info, Character y Origin.
+* Characteritem.kt: Composable que renderiza cada tarjeta de personaje.
+* Characterservice.kt: interfaz Retrofit con los endpoints.
+* Constants.kt: constantes globales como BASE_URL y rutas.
+* MainActivity.kt: punto de entrada y lógica de carga de datos.
+* MainScreen.kt: UI principal con grid, paginación y estados.
 
-ui.theme
+Dentro del paquete ui.theme se encuentran:
 
-Color.kt: definición de colores base
-Theme.kt: configuración del tema Material 3
-Type.kt: tipografía personalizada
-
----
-
-## DETALLE DE LOS COMPONENTES
-
-### 1. Character.kt
-
-Define los modelos de datos que representan la respuesta de la API.
-
-* CharacterResponse: contiene la información de paginación (Info) y la lista de personajes (results).
-* Info: metadatos de paginación (count, pages, next, prev).
-* Character: representa un personaje con atributos como name, status, species, image, origin, location, episode.
-* Origin: ubicación o planeta de origen.
-
----
-
-### 2. Characteritem.kt
-
-Composable que renderiza cada tarjeta individual de personaje.
-
-* Imagen cuadrada cargada con Coil.
-* Nombre en negrita con tipografía titleMedium.
-* Indicador circular de color según estado:
-
-  * Alive: verde
-  * Dead: rojo
-  * Otros: gris
-* Emojis descriptivos para género, origen, ubicación y cantidad de episodios.
-
----
-
-### 3. Characterservice.kt
-
-Interfaz Retrofit que define el endpoint:
-
-@GET(Constants.CHARACTERS_PATH)
-suspend fun getCharacters(@Query("page") page: Int = 1): CharacterResponse
-
----
-
-### 4. Constants.kt
-
-Almacena las constantes de configuración:
-
-const val BASE_URL = "https://rickandmortyapi.com/api/"
-const val CHARACTERS_PATH = "character"
-
----
-
-### 5. MainActivity.kt
-
-Punto de entrada de la app.
-
-* Configura Retrofit con GsonConverterFactory.
-* Maneja el estado UiState (Loading, Success, Error).
-* Gestiona la paginación actual (currentPage) y reintentos (retryTrigger).
-* Usa LaunchedEffect para disparar las peticiones cuando cambia la página o el trigger.
-
----
-
-### 6. MainScreen.kt
-
-Contiene la UI principal.
-
-* UiState (sealed interface): Loading, Success, Error.
-* Gradiente de fondo con tonos oscuros azulados.
-* Título "Rick & Morty" con tipografía displaySmall.
-* LazyVerticalGrid de 2 columnas para mostrar los personajes.
-* Controles de paginación: botones Anterior y Siguiente más indicador "Página X / Y".
-* Función extractPage para calcular la página actual a partir de next y prev.
-
----
-
-### 7. ui.theme
-
-* Color.kt: paleta base (púrpuras y rosas).
-* Theme.kt: configuración de Material 3 con soporte para colores dinámicos.
+* Color.kt: definición de colores base.
+* Theme.kt: configuración del tema Material 3.
 * Type.kt: tipografía personalizada.
 
 ---
 
-## CÓMO EJECUTAR EL PROYECTO
+## Requisitos
 
-1. Clonar el repositorio
-   git clone <url-del-repositorio>
+* Android Studio Ladybug o superior.
+* JDK 17 o 21.
+* compileSdk 35.
+* minSdk 24.
+* targetSdk 35.
+* Conexión a internet.
 
-2. Abrir en Android Studio (Hedgehog o superior recomendado)
-
-3. Sincronizar Gradle
-
-4. Ejecutar en emulador o dispositivo físico (Android 7.0 o superior)
-
-No requiere API Key, ya que la API es pública.
+No usar Java 25 con Gradle 8.9.
 
 ---
 
-## FLUJO DE LA APLICACIÓN
+## Configuración
 
-MainActivity
-→ LaunchedEffect llama a CharacterService.getCharacters(page)
-→ UiState = Loading muestra indicador de carga
-→ Si éxito: muestra grid de personajes
-→ Si error: muestra mensaje y botón "Reintentar"
-
----
-
-## DETALLES DE IMPLEMENTACIÓN
-
-* key = { it.id } optimiza la recomposición del grid.
-* statusColor() convierte el estado a color de forma segura.
-* extractPage() usa Regex para obtener el número de página.
-* enableEdgeToEdge() permite dibujar detrás de las barras del sistema.
-* mutableIntStateOf mejora rendimiento frente a mutableStateOf<Int>.
+1. Clonar el repositorio.
+2. Verificar que el archivo gradle.properties contenga:
+   org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+   org.gradle.configuration-cache=true
+   android.useAndroidX=true
+   kotlin.code.style=official
+3. Configurar Gradle JDK en Android Studio con JDK 17 o 21.
+4. Sincronizar el proyecto.
+5. Ejecutar en un emulador o dispositivo físico.
 
 ---
 
-## POSIBLES MEJORAS FUTURAS
+## API
 
-* Pantalla de detalle del personaje
-* Búsqueda por nombre
-* Caché offline con Room
-* Tests unitarios y de UI
-* Soporte para tablets con más columnas
+La aplicación utiliza la base URL https://rickandmortyapi.com/api/ y el endpoint GET /character?page={page}.
+
+La API devuelve un JSON con dos campos principales: info y results. El campo info contiene count, pages, next y prev. El campo results es una lista de personajes, donde cada personaje incluye id, name, status, species, gender, image, origin, location y episode.
 
 ---
 
-## LICENCIA
+## Modelos Kotlin
 
-Uso educativo. Datos proporcionados por la Rick and Morty API.
+El modelo CharacterResponse contiene un objeto Info y una lista de Character.
+
+El objeto Info tiene los campos count, pages, next y prev.
+
+La clase Character tiene los campos id, name, status, species, gender, image, origin, location y episode. El campo episode es una lista de cadenas que por defecto está vacía.
+
+La clase Origin solo tiene el campo name.
 
 ---
 
-## AUTOR
+## Arquitectura
 
+La arquitectura sigue un flujo sencillo:
+
+La UI en MainActivity y Compose llama a MainScreen y CharacterItemView. Luego se comunica con CharacterService mediante Retrofit. Finalmente, se conecta con la API externa.
+
+---
+
+## Problemas conocidos
+
+* Java 25 no está soportado; usar JDK 17 o 21.
+* Si falta android.useAndroidX, agregarlo en gradle.properties.
+* La API puede devolver datos inconsistentes; validar campos opcionales como next y prev.
+* Las imágenes pueden tardar en conexiones débiles; Coil maneja caché automáticamente.
+
+---
+
+## Mejoras futuras
+
+* Implementar ViewModel con StateFlow.
+* Añadir pantalla de detalle del personaje.
+* Incluir búsqueda por nombre.
+* Agregar caché con Room.
+* Realizar pruebas unitarias y de UI.
+* Dar soporte para tablets con más columnas en el grid.
+
+---
+
+## Autor
+
+Tu Nombre
 https://github.com/Guaso1396
-
----
-
-¡Wubba Lubba Dub Dub!
