@@ -1,33 +1,30 @@
 # Devices App
 
-Aplicación Android desarrollada en **Kotlin** con **Jetpack Compose** que consume la API pública de https://api.restful-api.dev para mostrar un catálogo de dispositivos electrónicos (teléfonos, tablets, relojes, audífonos, etc.).
+Aplicación Android desarrollada en Kotlin con Jetpack Compose que consume la API pública de https://api.restful-api.dev para mostrar un catálogo de dispositivos electrónicos (teléfonos, tablets, relojes, audífonos, etc.).
 
 ---
 
-## 📱 Descripción
+## Descripción
 
 La app obtiene una lista de dispositivos desde el endpoint `/objects` y los presenta en una lista desplazable con su nombre, color, capacidad y precio. Cada ítem incluye un ícono de teléfono y un separador visual.
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
-| Tecnología | Uso |
-|---|---|
-| **Kotlin** | Lenguaje principal |
-| **Jetpack Compose** | UI declarativa moderna |
-| **Material 3** | Sistema de diseño |
-| **Retrofit 2** | Cliente HTTP para consumir la API |
-| **Gson** | Conversión JSON ↔ Objetos Kotlin |
-| **Coroutines** | Llamadas asíncronas |
-| **ViewModel / Lifecycle** | Gestión de ciclo de vida |
-| **Gradle Kotlin DSL** | Configuración del build |
-| **Version Catalog (libs.versions.toml)** | Gestión centralizada de dependencias |
+* Kotlin
+* Jetpack Compose
+* Material 3
+* Retrofit 2
+* Gson
+* Coroutines
+* ViewModel / Lifecycle
+* Gradle Kotlin DSL
+* Version Catalog (libs.versions.toml)
 
 ---
 
-## 📂 Estructura del proyecto
-
+## Estructura del proyecto
 
 Devices/
 ├── app/
@@ -47,135 +44,155 @@ Devices/
 ├── gradle/
 │ ├── libs.versions.toml
 │ └── wrapper/
-│ └── gradle-wrapper.properties
+│     └── gradle-wrapper.properties
 ├── build.gradle.kts
 ├── settings.gradle.kts
 ├── gradle.properties
 └── README.md
 
+---
+
+## Requisitos
+
+* Android Studio Ladybug o superior
+* JDK 17 o 21
+* compileSdk 35
+* minSdk 24
+* targetSdk 35
+* Conexión a internet
+
+No usar Java 25 con Gradle 8.9.
 
 ---
 
-## 🚀 Requisitos previos
+## Configuración
 
-- **Android Studio** Ladybug (2024.2) o superior
-- **JDK 17** o **JDK 21**
-- **Android SDK**
-  - `compileSdk = 35`
-  - `minSdk = 24`
-  - `targetSdk = 35`
-- Conexión a internet
+1. Clonar repositorio
+   git clone <url-del-repositorio>
+   cd Devices
 
-> ⚠️ No usar Java 25 con Gradle 8.9
-
----
-
-## ⚙️ Configuración
-
-### 1. Clonar el proyecto
-
-```bash
-git clone <url-del-repositorio>
-cd Devices
 2. Verificar gradle.properties
+
 org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
 org.gradle.configuration-cache=true
 android.useAndroidX=true
 kotlin.code.style=official
-3. Configurar Gradle JDK
 
-Seleccionar JDK 17 o 21 en Android Studio.
+3. Configurar Gradle JDK en Android Studio (JDK 17 o 21)
 
-4. Sincronizar
-File → Sync Project with Gradle Files
-5. Ejecutar
+4. Sincronizar proyecto
 
-Run ▶ en un dispositivo o emulador.
+5. Ejecutar en emulador o dispositivo
 
-🌐 API utilizada
+---
+
+## API
 
 Base URL: https://api.restful-api.dev
 Endpoint: GET /objects
 
-Ejemplo de respuesta
+Ejemplo JSON:
+
 [
-  {
-    "id": "1",
-    "name": "Google Pixel 6 Pro",
-    "data": {
-      "color": "Cloudy White",
-      "capacity": "128 GB"
-    }
-  },
-  {
-    "id": "4",
-    "name": "Apple iPhone 11, 64GB",
-    "data": {
-      "price": 389.99,
-      "color": "Purple"
-    }
-  }
+{
+"id": "1",
+"name": "Google Pixel 6 Pro",
+"data": {
+"color": "Cloudy White",
+"capacity": "128 GB"
+}
+},
+{
+"id": "4",
+"name": "Apple iPhone 11, 64GB",
+"data": {
+"price": 389.99,
+"color": "Purple"
+}
+}
 ]
-Modelos en Kotlin
+
+---
+
+## Modelos Kotlin
+
 data class Device(val id: Long, val name: String, val data: Specs?)
 
 data class Specs(
-    @SerializedName(value = "color", alternate = ["Color"])
-    val color: String?,
-    @SerializedName(value = "capacity", alternate = ["Capacity", "capacity GB"])
-    val capacity: String?,
-    @SerializedName(value = "price", alternate = ["Price"])
-    val price: Float?
+@SerializedName(value = "color", alternate = ["Color"])
+val color: String?,
+@SerializedName(value = "capacity", alternate = ["Capacity", "capacity GB"])
+val capacity: String?,
+@SerializedName(value = "price", alternate = ["Price"])
+val price: Float?
 )
-🏗️ Arquitectura
+
+---
+
+## Arquitectura
+
 UI (MainActivity / Compose)
-        ↓
+↓
 MainScreen / DeviceItem
-        ↓
+↓
 DeviceService (Retrofit)
-        ↓
+↓
 API externa
-🐛 Problemas conocidos
-Java 25 no soportado
 
-Usar JDK 17 o 21.
+---
 
-Falta AndroidX
+## Problemas conocidos
 
-Agregar:
+* Java 25 no soportado → usar JDK 17 o 21
+* android.useAndroidX faltante → agregar en gradle.properties
+* Datos inconsistentes en API → usar SerializedName con alternate
 
-android.useAndroidX=true
-Datos inconsistentes de la API
+---
 
-Solucionado con @SerializedName(alternate = ...).
+## Mejoras futuras
 
-📋 Mejoras futuras
-ViewModel + StateFlow
-Manejo de errores
-Pantalla de detalle
-Caché con Room
-Tests unitarios
-Búsqueda y filtros
-🤝 Contribuciones
-Fork
-Nueva rama
-Commit
-Push
-Pull Request
-📄 Licencia
+* ViewModel con StateFlow
+* Manejo de estados de carga y error
+* Pantalla de detalle
+* Caché con Room
+* Pruebas unitarias
+* Búsqueda y filtrado
+
+---
+
+## Contribuciones
+
+1. Fork
+2. Crear rama
+3. Commit
+4. Push
+5. Pull Request
+
+---
+
+## Licencia
 
 MIT
 
-👤 Autor
+---
+
+## Autor
 
 Tu Nombre
-GitHub: https://github.com/Guaso1396
+https://github.com/tu-usuario
 
-🙏 Agradecimientos
+---
+
+## Agradecimientos
+
 https://restful-api.dev
 https://developer.android.com/jetpack/compose
 https://square.github.io/retrofit/
-📚 Referencias
+
+---
+
+## Referencias
+
 https://developer.android.com/docs
 https://developer.android.com/jetpack/compose
 https://square.github.io/retrofit/
