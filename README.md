@@ -128,10 +128,3 @@ La UI en MainActivity y Compose llama a MainScreen y CharacterItemView. Luego se
 * Agregar caché con Room.
 * Realizar pruebas unitarias y de UI.
 * Dar soporte para tablets con más columnas en el grid.
-
----
-
-## Autor
-
-Tu Nombre
-https://github.com/Guaso1396
